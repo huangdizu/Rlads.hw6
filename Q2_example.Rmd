@@ -1,0 +1,56 @@
+---
+title: "HW 6: 1.2 範例"
+date: |
+  | 2021-04-08
+  |
+output:
+  html_document:
+    number_sections: no
+    highlight: tango
+    toc: yes
+    toc_float:
+      collapsed: no
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,comment = '#>',error=TRUE, results = 'hold', out.width='70%', fig.align = 'center', message = FALSE)
+```
+
+
+## 1.2 自己的資料自己畫 (共 60 分)
+
+此範例為作業 1.2 的範例，提供同學參考。這個範例直接使用 `ggplot2` 的內建資料 `diamonds`，因此沒有讀取外部資料的動作。同學**不可以使用內建資料**。
+
+### 資料讀取與清理 {-}
+
+```{r}
+# Write your code here
+library(ggplot2)
+df <- diamonds
+
+# 請務必印出 data frame
+df
+```
+
+### 資料視覺化 {-}
+
+```{r}
+# Write your code here
+pl <- ggplot(df) +
+  geom_histogram(aes(x = carat), 
+                 alpha = 0.6, binwidth = 0.1) +
+  geom_freqpoly(aes(carat, color = cut), 
+                binwidth = 0.1)
+
+# 請務必印出圖片
+pl
+```
+
+### Tweak the plot {-}
+
+```{r}
+# Write your code here
+pl + theme_bw() +
+  labs(title = "Diamond Weight Distribution")
+```
