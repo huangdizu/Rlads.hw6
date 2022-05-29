@@ -1,8 +1,8 @@
 ---
-author: "未命名 B01201001 一般系"
+author: "黃柏勳 310708003 交大科管"
 title: "HW 6: 資料視覺化"
 date: |
-  | 2021-04-08
+  | 2022-05-29
   |
   | [Rmd Source (for TAs)](./index.Rmd){download='`r basename(getwd())`.Rmd'}
 output:
@@ -47,6 +47,10 @@ died_summary
 
 ```{r}
 # Write your code here
+ggplot(died_summary) +
+  geom_bar(aes(Pclass, percent_survived),
+           stat = "identity") +
+  facet_wrap(vars(Sex))
 ```
 
 <div class="alert alert-success hint">
@@ -95,7 +99,17 @@ died_summary
 
 ```{r}
 # Write your code here
+library(readr)
+library(dplyr)
+mydata_csv <- read_csv("C:/Users/huang/Rlads/hw6/mydata.csv.csv")
+cleaned_mydata<- mydata_csv %>%
+    select(title, type, release_year, genres, production_countries, imdb_score, imdb_votes) %>%
+    filter(release_year >= 2010, production_countries == "['US']", imdb_score > 7.5) %>%
+    arrange(desc(imdb_score))
+    
+  
 # 請務必印出 data frame
+cleaned_mydata
 ```
 
 ### 資料視覺化 (30 分) {-}
@@ -103,12 +117,18 @@ died_summary
 ```{r}
 # Write your code here
 # 請務必印出圖片
+netflix <- ggplot(data = cleaned_mydata, mapping = aes( release_year, imdb_score)) + 
+  geom_point(mapping = aes(color = type, alpha = 0.6), position = "jitter") +
+  geom_smooth(mapping = aes(linetype = type))
+netflix
 ```
 
 ### Tweak the plot (10 分) {-}
 
 ```{r}
 # Write your code here
+netflix + theme_bw() +
+  labs(title = "Netflix")
 ```
 
 
@@ -117,7 +137,7 @@ died_summary
 
 請填寫[此份課程調查問卷][survey]，並將下方 `我，未命名，已完成問卷填答` 內的 `未命名` 更改為自己的姓名：
 
-> 我，未命名，已完成問卷填答
+> 我，黃柏勳，已完成問卷填答
 
 [survey]: https://forms.gle/KKdkSSU4HSARaQ7H7
 
@@ -139,7 +159,11 @@ died_summary
 ```{r}
 # Modify the code below
 ggplot(data = mpg, mapping = aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth() +
-  labs(x = "Engine displacement (litres)", y = "Highway miles (per gallon)")
+  geom_point(aes(color = (class == "suv"))) +
+  geom_smooth(aes(linetype = as.character(year)), method = "lm", se = FALSE) +
+  geom_vline(aes(xintercept = mean(displ))) +
+  labs(x = "Engine displacement (litres)", y = "Highway miles (per gallon)") +
+  guides(color = guide_legend("SUV"), linetype = guide_legend("Year"))
+
+#有點不確定 為甚麼year要用as.character
 ```
