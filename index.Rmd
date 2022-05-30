@@ -158,6 +158,11 @@ netflix + theme_bw() +
 
 ```{r}
 # Modify the code below
+#先把複雜的變換提出來是個不錯的選擇
+#mpg1 <- mpg %>%
+#  mutate(SUV_check = (class == "suv")) %>%
+#  mutate(year = as.character(year))
+
 ggplot(data = mpg, mapping = aes(displ, hwy)) +
   geom_point(aes(color = (class == "suv"))) +
   geom_smooth(aes(linetype = as.character(year)), method = "lm", se = FALSE) +
