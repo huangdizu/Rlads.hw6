@@ -119,7 +119,7 @@ cleaned_mydata
 # 請務必印出圖片
 netflix <- ggplot(data = cleaned_mydata, mapping = aes( release_year, imdb_score)) + 
   geom_point(mapping = aes(color = type, alpha = 0.6), position = "jitter") +
-  geom_smooth(mapping = aes(linetype = type))
+  geom_smooth(mapping = aes(linetype = type), method = "lm", se = FALSE)
 netflix
 ```
 
